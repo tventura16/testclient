@@ -1,0 +1,30 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script src="sintesis-pasarela.js"></script>
+    <div id="pasarela-container"></div>
+
+    <script>
+      // Configuración básica
+      const pasarela = new SintesisPasarela({
+        apiKey: "0lATGsHXAv9fLxJAbAkHgJ2w9LCDs2ejJjhCOXEK1YE=",
+        debug: true,
+        onSuccess: function (data) {
+          console.log("Pasarela lista!", data);
+        },
+        onError: function (error) {
+          console.error("Error:", error);
+        },
+      });
+
+      // Renderizar en el contenedor
+      pasarela.render("pasarela-container", {
+        height: "700px",
+      });
+    </script>
+  </body>
+</html>
