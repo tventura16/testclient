@@ -7,7 +7,7 @@
     <script src="https://unpkg.com/sintesis-pasarela-universal@latest/embedded-intragation.js"></script>
   </head>
   <body>
-    <div id="pasarela-container"></div>
+    <!-- <div id="pasarela-container"></div>
 
     <script>
       // Configuración básica
@@ -25,7 +25,17 @@
       // Renderizar en el contenedor
       pasarela.render("pasarela-container", {
         height: "700px",
+      }); -->
+
+    <div id="pasarela-container"></div>
+
+    <script>
+      const pasarela = SintesisPasarela.create({
+        apiKey: "0lATGsHXAv9fLxJAbAkHgJ2w9LCDs2ejJjhCOXEK1YE=",
+        debug: true,
       });
+
+      pasarela.render("#pasarela-container");
     </script>
   </body>
 </html>
