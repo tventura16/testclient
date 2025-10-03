@@ -3,8 +3,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-
-    <script src="lib.js"></script>
+    <script src="https://unpkg.com/sintesis-pasarela-universal@latest/embedded-intragation.js"></script>
   </head>
   <body>
     <!-- <div id="pasarela-container"></div>
@@ -30,12 +29,52 @@
     <div id="pasarela-container"></div>
     <!-- <iframe src="https://dev.sintesis.com.bo/miscuentas-ui/embedded-integration/0lATGsHXAv9fLxJAbAkHgJ2w9LCDs2ejJjhCOXEK1YE=" frameborder="0" width="100%" height="100%"></iframe> -->
     <script>
-      const pasarela = SintesisPasarela.create({
-        apiKey: "0lATGsHXAv9fLxJAbAkHgJ2w9LCDs2ejJjhCOXEK1YE=",
-        debug: true,
-      });
+      // Esperar a que el DOM esté listo
+      document.addEventListener("DOMContentLoaded", async function () {
+        try {
+          console.log("Iniciando SintesisPasarela...");
 
-      pasarela.render("pasarela-container");
+          const pasarela = SintesisPasarela.create({
+            apiKey: "0lATGsHXAv9fLxJAbAkHgJ2w9LCDs2ejJjhCOXEK1YE=",
+            debug: true,
+            autoInit: false, // Desactivar auto-inicialización
+            onSuccess: function (data) {
+              console.log("✅ Pasarela inicializada:", data);
+            },
+            onError: function (error) {
+              console.error("❌ Error:", error);
+            },
+          });
+
+          // Esperar explícitamente a que termine la inicialización
+          await pasarela.init();
+
+          console.log("✅ Inicialización completa, procediendo con render...");
+
+          // Ahora renderizar
+          await pasarela.render("pasarela-container", {
+            width: "100%",
+            height: "100%",
+          });
+
+          console.log("✅ Render completado");
+        } catch (error) {
+          console.error("❌ Error:", error);
+
+          const container = document.getElementById("pasarela-container");
+          if (container) {
+            container.innerHTML = `
+              <div style="padding: 2rem; text-align: center; background: #fee; border: 1px solid #fcc; border-radius: 8px; color: #c33;">
+                <h3>Error al cargar la pasarela</h3>
+                <p>${error.message}</p>
+                <button onclick="location.reload()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: #c33; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                  Reintentar
+                </button>
+              </div>
+            `;
+          }
+        }
+      });
     </script>
   </body>
 </html>
